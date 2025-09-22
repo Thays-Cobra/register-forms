@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { validateName, validateEmail } from "../utils";
+import { validateName, validateEmail, validatePassword, validateTerms,validateField } from "../utils/validations";
 
 export default function FormComponent({onSubmit}) {
     const [formData, setFormData] = useState({
@@ -19,38 +19,6 @@ export default function FormComponent({onSubmit}) {
     const hasEmptyFields = Object.values(formData).some((value) => value === "");
     const isFormInvalid = hasErrors || hasEmptyFields || !formData.terms;
     const [isLoading, setIsLoading] = useState(false);
-
-    function validatePassword(value) {
-        if (!value) {
-            return "A senha é obrigatória";
-        }
-        if (value.length < 6) {
-            return "Mínimo de 6 caracteres";
-        }
-        return "";
-    }
-
-    function validateTerms(value) {
-        if (!value) {
-            return "Aceite os termos para continuar";
-        }
-        return "";
-    }
-
-    function validateField(name, value) {
-        switch (name) {
-            case "name":
-                return validateName(value);
-            case "email":
-                return validateEmail(value);
-            case "password":
-                return validatePassword(value);
-            case "terms":
-                return validateTerms(value);
-            default:
-                return "";
-        }
-    }
 
     const simulateRequest = () =>  {
         return new Promise((resolve) => {
