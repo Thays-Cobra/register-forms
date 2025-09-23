@@ -22,7 +22,14 @@ function Form() {
             {submittedData && (
                 <div className="confirmation">
                     <br></br>
-                    {showMsg && <p id="submit-msg" role="alert" style={{color: "red"}}>Formulário enviado com sucesso!</p>}
+                    {showMsg &&
+                        <p
+                        id="submit-msg"
+                        data-testid="submit-msg"
+                        role="alert"
+                        style={{color: "red"}}>Formulário enviado com sucesso!
+                        </p>
+                    }
                 </div>
             )}
         </div>

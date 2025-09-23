@@ -92,3 +92,7 @@ span {
     border: 0.5px black solid;
     background-color: #ededed;
 }
+
+#terms-error, #name-error, #email-error, #password-error {
+    font-size: medium;
+}

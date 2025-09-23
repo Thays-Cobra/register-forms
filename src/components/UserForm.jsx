@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { validateName, validateEmail, validatePassword, validateTerms,validateField } from "../utils/validations";
+import { simulateRequest } from "../utils/simulateRequest";
 
 export default function FormComponent({onSubmit}) {
     const [formData, setFormData] = useState({
@@ -19,15 +20,9 @@ export default function FormComponent({onSubmit}) {
     const hasEmptyFields = Object.values(formData).some((value) => value === "");
     const isFormInvalid = hasErrors || hasEmptyFields || !formData.terms;
     const [isLoading, setIsLoading] = useState(false);
+    const [generalError, setGeneralError] = useState("");
 
-    const simulateRequest = () =>  {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const simulatedData = { id: 1, name: "Thays" };
-                resolve(simulatedData); // só resolve, não loga
-            }, 2000);
-        });
-    };
+
 
     function handleChange(e) {
         //identifica qual input disparou (name, email, password)
@@ -68,13 +63,14 @@ export default function FormComponent({onSubmit}) {
 
         //2 - aqui a "requisição" roda como se fosse real
         try {
-            const data = await simulateRequest();
+            const data = await simulateRequest(formData);
             console.log("Resposta simulada: ", data);
 
             //3 - Quando terminar, chamar o onSubmit de verdade
             onSubmit(formData);
         } catch (err) {
             console.error("Erro de simulação: ", err);
+            setGeneralError("Ocorreu um erro ao enviar o formulário. Tente novamente.");
         } finally {
              //4 - Desativar o estado de carregamento SEMPRE
             setIsLoading(false);
@@ -197,6 +193,15 @@ export default function FormComponent({onSubmit}) {
                     {isLoading ? "Enviando..": "Enviar"}
                 </button>
             </div>
+            {generalError && (
+                <div
+                data-testid="general-error"
+                role="alert"
+                style={{ color: "red", marginBottom: "1rem" }}
+                >
+                {generalError}
+                </div>
+            )}
         </form>
     );
 }
