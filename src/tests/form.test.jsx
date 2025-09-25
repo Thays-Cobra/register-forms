@@ -4,7 +4,6 @@ import { expect, vi } from "vitest";
 import { simulateRequest } from "../utils/simulateRequest";
 import * as api from "../utils/simulateRequest";
 
-
 const renderForm = () => render(<Form />);
 
 describe("form", () => {
